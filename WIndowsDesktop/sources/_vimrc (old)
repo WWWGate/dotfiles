@@ -1,0 +1,1087 @@
+set nocompatible  "This tells Vim that we aren't going to operate like Vi and we want all the goodies Vim has.
+filetype on
+filetype plugin on
+filetype indent on
+
+set fileencodings=utf8,utf-16le,ucs-bom,default,latin1
+
+"NOTE : Vim has a built in preferance for unix file formats (line endings are
+"LF only) -- even with dos first in the list, if there are a mix of line
+"endings of LFCR and LF, it will preferance LF endings and show the file with
+"all the lines that have LFCR haviong a  at the end of each line.
+set fileformats=dos,unix,mac
+
+"This runs the source file (that means file with .vim after it that is in the
+"source directory (vim81 folder inside of the vim install folder).  This runs
+"vimrc_example.vim on my system which is in C:\vim 
+source $VIMRUNTIME/vimrc_example.vim
+
+"This sets vim to work more consistently with typiucal windows enviornment.
+"(e.g. Ctrl-C is copy, and Ctrl-V is paste, etc.)
+"source $VIMRUNTIME/mswin.vim
+"This sets the mouse control to a given model (in this case mswin).  For more
+"details, see    :help behave
+
+
+
+"behave mswin
+
+set clipboard^=unnamedplus
+
+
+":set tags=C:\_setup\_tags\     "Set the tags file directory
+
+set textwidth=0   "prevent auto-linebreaking when hitting a certain line length.
+
+":set guioptions-=m  "remove menu bar
+":set guioptions-=T  "remove toolbar
+
+"set guifont to something much better.
+set guifont=Meslo_LG_M:h10:cANSI:qDRAFT
+
+set cursorline    "Keeps the current line that the cursor is on highlighted.
+
+let g:acp_enableAtStartup = 0    "for when ACP (auto complete pop) is in plugins directory.  0 disabled, 1 enabled
+
+
+
+""""""""""""""""""""""" Ready for LocalLeader -- when I need"""""""""""""""""""""""
+"let maplocalleader = 
+"This may seem like it should assign  but I'd really rather escape leaders the
+"  same way by using bslash.  Just personal pref.
+"noremap <Leader>K <bslash>K
+"noremap <LeaderLeader>K KK
+
+
+
+""""""""""""""""" LEADER""""""""""""""""""""""
+
+"Going to setup or leader key to be K (clearly this wasn't done).  It's close and faster and both the
+"help files and Vim wikia reccomend <Leader>K to setup a better version of it
+"anyway (one that uses man.vim plugin)
+"Step one:  Load the man filetype plugin:
+ 
+:runtime! ftpplugin/man.vim
+"Add the following incase we inteded to do this often... not sure what it does.
+"   Note- See usr_12.txt  find-manpage         
+"   Source-  http://vimdoc.sourceforge.net/htmLdoc/usr_12.html#find-manpage
+"noremap <Leader>
+
+let mapleader = "\\"
+noremap <Leader>\ \\
+noremap <Leader>vimrc :OpenMyVimrc<CR>| "Gets me to my vimrc fast as fast can be.  (see def. below)
+noremap <Leader>viminfo :OpenMyVimrc<CR>| "Gets me to my vimrc fast as fast can be.  (see def. below)
+
+"Note working as expected.  Had to comment it out.
+noremap <Leader>wvim :Updatevimrc<CR>| "Writes my vimrc to a seperate git directory.  (see def. below)
+noremap <Leader>clr :let @/=""<CR>| "Clear the search highlighting so I can see again.
+
+nnoremap <Leader>align gg=G
+
+"Highlighting
+nnoremap <silent> <Leader>hlin ml:execute 'match Search /\%'.line('.').'l/'<CR>| "This adds the ability to highlight the current line.
+nnoremap <silent> <Leader>hcol :execute 'match Search /\%'.virtcol('.').'v/'<CR>| "Same thing as the previous line, just handles vertical columns.
+nnoremap <silent> <Leader>nohigh :match<CR>| "Clear the search highlighting.
+
+"<Leader>* when in visual mode now acts like star search in normal mode using
+"the visual selection as the search.
+vnoremap \* y/<C-R>"<CR>
+
+cnoremap %% <C-R>=expand('%:h').'/'<CR>| "Sets %% to refer to the directory of the current file regardless of 'pwd'.
+
+"Mapping d! to send text right to the black hole register.  aka perm. delete.
+nnoremap <Leader>d! "_dd
+vnoremap <Leader>d! "_dd
+
+"These remap control-a and control-x  to   alt-a and alt-x so you can
+"incrememt or decrement numbers when the cursor is over them in normal mode.
+"  (e.g. if the cursor is over the number 5,  5<alt-a> would change the number
+"  to 10.
+nnoremap <A-a> <C-a>
+nnoremap <A-x> <C-x>
+"SOURCE: https://vim.fandom.com/wiki/Increasing_or_decreasing_numbers
+
+
+"OLD MAPPINGS NO LONGER IN USE "--------------------------------------------
+"noremap <Leader>redir :redit @r<CR>| "Not sure what these do anymore.
+"noremap <Leader>endre :redir END<CR>| "Not sure what these do anymore.
+
+"There are bettwer ways to do this and this might be causing problems
+"noremap <Leader>cd :cd<space>~\Desktop<CR>
+
+
+"""""""""""""""""""""" Cross-platform Date Stamp Mapping"""""""""""""""""""""
+"nnoremap <Leader><F3> i<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
+"inoremap <Leader><F3> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
+
+"NOTE--  Single letter leader key mappings are a terrible idea.  Too many
+"commands will short circuit if you do this.  Disabling this whole section.
+
+"noremap <Leader>q :q<CR>
+"noremap <Leader>Q :q!<CR>
+
+"TODO setup good leader key commands for file writing.
+"noremap <Leader>w :<CR>
+"noremap <Leader>W :qa!<CR>
+
+"noremap <Leader>C "+Y
+"noremap <Leader>c "+y$
+
+"noremap <Leader># :set<space>number!<CR>
+"noremap <Leader>r# :set<space>rnu!<CR>
+
+"noremap <Leader>h! :set<space>hidden
+"noremap <Leader>h :set<space>hidden!<CR>
+"noremap <Leader>h? :set<space>hidden?<CR>
+
+"noremap <Leader>l! :set<space>list
+"noremap <Leader>l :set<space>list!<CR>
+"noremap <Leader>h? :set<space>list?<CR>
+
+"This is a list itterator keeps a blank line between the items you
+"  are working with. Take a file with a list of filenames.  When done
+"  with the first line, insert a blank line after it.  Position cursor
+"  at the begining of the line after the blank line just created.
+"  then use this mapping to move the line before the blank line when you
+"  you are done with it.
+"noremap <Leader>n ddkPjj
+"+y$
+
+"Quick change for toolbars that isn't really needed.  Not worth having mapped.
+"noremap <Leader>hb :set<space>guioptions+=b<CR>
+"noremap <Leader>nhb :set<space>guioptions-=b<CR>
+"noremap <Leader>mb :set<space>guioptions+=m<CR>
+"noremap <Leader>nmb :set<space>guioptions-=m<CR>
+
+"APC Switches  --- don't really like autocomplpop plugin anymore -- don't need
+"these.
+"noremap <Leader>eac :AcpEnable<CR>
+"noremap <Leader>dac :AcpDisable<CR>
+"noremap <Leader>lac :AcpLock<CR>
+"noremap <Leader>uac :AcpUnlock<CR>
+
+"Fun, but not really handy.  Better to learn the right way to do this with the
+"proper motions.    --- not sure why there was a colon in front either?
+"Accelerated Cursor when holding alt key.
+":noremap <M-l> 4l
+":noremap <M-h> 4h
+":noremap <M-j> 4j
+":noremap <M-k> 4k
+
+
+"TODO Need to use the below to create a function assigned to a leader mapping
+"so I have a  fast way to copy all matches from a search into a buffer.
+"
+"qaq
+":g/pattern/y A
+":let @+ = @a
+
+
+
+
+"nnoremap <Leader>map :redir<space>>><space>~/mymaps.txt | :map | :redir<space>END
+
+
+
+"This works like the above but having some issues with vim being slow --
+"removing this for now.
+"inoremap <Leader><F3> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
+
+
+"Set mapping for <leader>cd to update the working directory to the directory
+"the current file is in.
+"
+"nnoremap <leader>cd :cd %:p:h<CR>
+"
+"alternative to the above that prints/shows the current directory right after
+"changing it.
+"nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
+
+
+
+"NOTE--  map v remap.  noremap is non-recursive.
+"NOTE-- nnoremap v noremap -- nnoremap is like nmap, the preceeding m specifies
+"that the maping change is for normal mode only.
+"
+"NOTE--  There are some additional special mappings that are of interest.
+"<SID> and <Plug>  -- They are explained more in the help documentation.
+"
+"
+"MODE LETTERS (immediately preceeds map and remap commands.  Example:   [nvoxsicl]map  or  [nvoxsicl]map
+"n: normal only
+"v: visual and select
+"o: operator-pending
+"x: visual only
+"s: select only
+"i: insert
+"c: command-line
+"l: insert, command-line, regexp-search (and others. Collectively called 'Lang-Arg' pseudo-mode)
+
+
+"***** MAPING ARROW KEYS TO CONTROL WINDOW MOVEMENTS *****
+"nnoremap <C-J> <C-W><C-J>
+"nnoremap <C-K> <C-W><C-K>
+"nnoremap <C-L> <C-W><C-L>
+"nnoremap <C-H> <C-W><C-H>
+
+
+"***** MAPING F-KEYs AND MORE *****
+"Map modes    (:help map-modes)
+"NOTE - Here are the commands for mapping mode specificly--
+"nmap - Map to NORMAL mode.
+"vmap - Map to VISUAL mode.
+"omap - Map to ?unknown? mode.
+"cmap - Map to COMMAND mode.
+"imap - Map to INSERT mode.
+
+"***** DISABLE ARROW KEYS (c'mon, we're better than this!) ******
+"noremap <Up> <NOP>
+"noremap <Down> <NOP>
+"noremap <Left> <NOP>
+"noremap <Right> <NOP>
+
+
+"***** DISABLE LETTER KEYS FOR SINGLE MOVEMENT KEYS (Not quite ready for this
+"one yet...) ******
+"noremap h <NOP>
+"noremap j <NOP>
+"noremap k <NOP>
+"noremap l <NOP>
+
+
+
+"***** MAPING Leader Key ******
+"let mapleader = 
+
+
+"***** MAPING LocalLeader Key ******
+"let maplocalleader = 
+"localleader is used for mappings that are local to a buffer.
+"They can be equal. Although if you make them different, there is a smaller chance of mappings from global
+" plugins to clash with mappings for filetype plugins.
+
+
+
+
+
+"***** MAPING F-KEY *****
+" Sets the horizontal scrollbar to show.
+map <F1> <NOP>
+
+" Set the horizontal scrollbar to not show.
+"map <F2> :set guioptions-=b
+" Fast saving file.
+map <F2> <Esc>:w<CR>
+
+"This function (below) removes all the whitespace to shrink down the size of XML
+map <F3> :%s/^ \+//
+
+"This function (below) takes single line XML and makes it readable by adding
+" back in, indented whitespace.
+map <F4> :%!xmllint --format -
+
+"map <F5> :AcpLock<CR>
+
+map <F5> :%s/_REPLACE_/\= submatch(0) . " " . repeat("_PAD_", _LEN_ - len(submatch(0)))
+"Function keys to pop back and forth between a large size font and a small
+"  sized font.
+map <F6> :set guifont=Courier_New:h7:b:cANSI<CR>
+map <F7> :set guifont=Fixedsys:h9:cANSI<CR>
+
+"Function used to spin through next search result but keep the line found centered
+" in the current window.
+map <F8> nzz
+
+"These next two are my add and remove hashtag at the begining of lines for
+"fast block commenting.
+map <F9> :s/^/#/g<CR>:let @/ = ""<CR>
+map <F10> :s/^#//g<CR>:let @/ = ""<CR>
+"map <F11>
+"map <F12>
+
+
+"Reload _vimrc  (not sure if this actually works)
+"map <F11> :source $MYVIMRC<CR>
+
+"This deletes the area between two mark points that you've already set.
+"map <F11> :set list!<CR>
+
+"This section is for my future mappings with Apple Keyboards.  They go to F19.
+"
+"Repeat last register run.
+"map <F13>
+"map <F14>
+"map <F15>
+map <F16> :let &columns = (&columns - 16)<CR>
+map <F17> :let &lines = (&lines + 8)<CR>
+map <F18> :let &lines = (&lines - 8)<CR>
+map <F19> :let &columns = (&columns + 16)<CR>
+"map <F18> :
+"map <F19> :
+
+
+
+
+
+
+
+
+
+
+"********** MAPPING LEADER and LOCAL LEADER **********
+":let mapleader = '<<F4>>'
+"NOTE Need to replace the single quotes with double quotes on the above line
+"before uncommenting and using.
+"
+"To use this, use <leader> to referance it.  (:help leader)
+"The default value of this is the backlslash key.
+"                       
+":let maplocalleader = '<F8>'
+"NOTE Need to replace the single quotes with double quotes on the above line
+" before uncommenting and using.
+"Sets the local leaderkey prefix for mappings that are 
+" specific to a certain type of file. (e.g. perl file)
+"NOTE-- Quotes needed on both sides of the \\
+" before using and removing the leading quote.
+
+
+"********** MAPPING KEYS FOR LEADER **********
+" CDC = Change to Directory of Current file
+"map <leader>cdc cd %:p:h
+
+
+
+
+"===================== ALL DONE WITH MAPPING NOW..... PLEASE.... ==========
+
+
+
+
+"http://vim.wikia.com/wiki/Open_same_file_read-only_in_second_Vim
+"This is a function that will override automatically if you open a file that
+"is already open in Vim (swap file already exists).
+"NOTE-- The below function uses an autocommand (defned by au )
+"
+
+"func CheckSwap()
+"  swapname
+"  if v:statusmsg =~ '\.sw[^p]$'
+"    set ro
+"  endif
+"endfunc
+"
+"if &swf
+"  set shm+=A
+"  au BufReadPre * call CheckSwap()
+"endif
+
+
+"More elaborite version of the above function.  Echos the message so it's
+"still visible, also add ToggleSwapCheck() to have Vim delete the existing
+"swap if needed (for when swaps still exist from crashes).
+"..usage is to toggle the behavior, reload the buffer to get the Vim Dialog
+"box where you can shoose to delete the swap.  Can later be toggled back on by
+"calling the same function.  (see URL above).
+
+
+"Triple typing [IAJK] results in a normal mode command for the corresponding letter of [aAoOiI].
+"inoremap II <Esc>I
+"inoremap AA <Esc>A
+"inoremap JJ <Esc>j
+"inoremap KK <Esc>ka
+
+
+"***** UNKNOWN - Not entirely sure what the below does *****
+set diffexpr=MyDiff()
+
+"Definition for the function 'MyDiff' -- not sure what it does or what it was
+"for.
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+"Set the current directory that vim referances for input and output to be the
+"current directory the file is located in.  Auto-update it when editing other
+"files.   -- this method may make loading and saving work incorrectly.
+"set autochdir
+
+
+" This has something to do with my special solution I found somewhere for
+" putting all undo files in the same directory.
+set backupdir=./.backup,.,/tmp
+set directory=.,./.backup,/tmp
+
+" This highlights non-ascii characters in red for easy finding and removing of
+" the of the little jerks.
+highlight nonascii guibg=Red ctermbg=1 term=standout
+au BufReadPost * syntax match nonascii "[^\u0000-\u007F]"
+
+
+"Looks like I used to have an older crappy version of finding non-ascii char
+"Sets the syntax to identify nonascii characters highlighted in Red for easy
+"identification.
+":syntax match nonascii '[^\x00-\x7F]'        NOTE--- change the last two
+"      single quotes to doubles if this is put back in place.
+":highlight nonascii guibg=Red ctermbg=2
+
+
+
+
+" This is from an attempt to setup Pathogen.  Never finished it.
+"***** Pathogen *****
+"execute pathogen#infect()
+"syntax on
+"filetype plugin indent on
+
+
+"***** GENERAL ENVIROMENT PREFERANCES *****
+" Specifies the width of a tab character.
+set tabstop=4      "Tabs only go out 4 spaces.  (the number of space a tab counts as)
+
+" Sets the amount of whitespace to add or remove using the indentation
+"   commands in normal mode.
+" - also set the number of spaces used for/steps-of (auto)indent.  << and >>
+set shiftwidth=4
+
+" Fine tunes the amount of white space to be inserted.
+"set softtabstop
+
+" Spaces are to be used not tabs.  (convert them on the fly)
+" NOTE- If set to 0, the 'ts' value is used (tabstop)
+set expandtab "Use tabs not spaces.
+"set expandtab - To insert a real tab CTRL-V<Tab>
+"NOTE- This doesn't work if behave vimruntime is using source of mswin.vim.
+"To get an actual tab then, turn off set expandtab put in the tab, and turn it
+"back on.
+
+
+"Line wrap based on the width of the window.  Lines will be broken mid-word if necessary (change with 'linebreak').
+set nowrap
+"use command :set wrap     to re-enable linewrapping.
+"use the command :set lbr
+"    to make lines break at closest full word.
+"linebreak  "boolean (default off)   (help: linebreak)    NOTE: lbr is short
+"            for linebreak command
+"breakat    string (default ---replacethiswithadoublequoteifyouturnthison ^I!@*-+;:,./?")
+
+
+" Sets searches to continue in the same direction (to next match) at the start or end of the file,
+"   rather than just stopping.
+"   NOTE - This option is on be default, but I'm setting and adding the info anyway.
+set wrapscan
+
+set nobackup
+" Set searching to not case sensative.
+set ignorecase
+" If pattern contains an uppercase letter, pattern is case sensative
+"   regardless of ignorecase being set.
+"   NOTE - smartcase only applies to typed patterns (doesn't include *, #, or gd)
+set smartcase
+" Show hidden characters (e.g. $ (newline) at end of line).
+set list!
+" Set show line numbers.
+set nu!
+
+" Allows commands like yy, p, and d (etc) to use the system clipboard.
+"   NOTE - This can cause some spec. global issues.
+"set clipboard=unnamed
+
+
+
+"This defines an auto command (:help autocommand).  When BufRead event occurs
+"(starting to edit a new buffer, after reading the file) and the file
+"extention is xml this sets the filetype to (blank) or default.
+"..... and I'm still not entirely sure what the means or what it is needed
+"for.
+au BufRead *.xml set ft=
+
+command -nargs=+ Not /^\(.*<args>\)\@!.*$
+
+command -nargs=0 Dest :%s/\(.*\)\(<documents>.*\)/\1<DestinationCode>D<\/DestinationCode>\r\1\2
+
+
+"Create the command 'NoBreak'. (see preceding definition).
+command -nargs=0 Nobreak call NoBreak()
+
+"Function/definition for NoBreak.
+function NoBreak()
+    execute '%s/ / /g'
+    normal ``
+endfunction
+
+
+"***** UNKNOWN -- Not quite sure what this does...
+command -nargs=0 Dups /^\(.\+\)$\n\1
+
+
+"Required for function (FixFunc) defined immedately below this.
+command -nargs=+ Fix call FixFunc(<f-args>)
+
+
+"***** UNKNOWN -- Not quite sure what this does...
+function FixFunc(...)
+    let argStr = ''
+    for s in a:000
+        if s != '@'
+            let argStr .= s . '|'
+        endif
+    endfor
+
+    let argList = split(argStr, '|')
+
+    let f_n      = argList[0]
+    let l_n      = argList[1]
+    let datestr  = argList[2]
+    let timestr  = argList[3]
+
+    if strlen(timestr) < 7
+        let timestr = ' ' . timestr
+    endif
+    if strlen(datestr) != 10
+        let dateArray = split(datestr, '/')
+        if strlen(dateArray[0]) == 1
+            let dateArray[0] = '0' . dateArray[0]
+        endif
+        if strlen(dateArray[1]) == 1
+            let dateArray[1] = '0' . dateArray[1]
+        endif
+        if strlen(dateArray[2]) == 2
+            let dateArray[2] = '20' . dateArray[2]
+        endif
+        let datestr = dateArray[0] . '/' . dateArray[1] . '/' . dateArray[2]
+    endif
+    let searchstr = l_n . '"\t"' . f_n
+    let replacestr = '"' . datestr . '"\t"' . timestr . '"\t'
+    execute '/' . searchstr . '\c'
+    let curr_line = getline('.')
+    
+    let replacement = substitute(curr_line,'^\(\(.\{-}\t\)\{9}\)\(".\{-}"\t\)\{2}','\1' . replacestr,"")
+
+    call setline('.', replacement)
+endfunction
+
+
+" This allows us to run the command    :Schema [whatever]    where [whatever]
+" is the Schema we are trying to assign to the XML2 (this is an Apex specific
+" function.
+"Create the command AssignSchema to call the preceding AssignSchema function.
+command -nargs=+ Schema call AssignSchema(<f-args>)
+
+"***** ASSIGN SCHEMA - Function to use for adding the Schema to XML2 for DOC1 *****
+function AssignSchema(input)
+    let schema = a:input
+    let searchstr = '<PrintJob>'
+    let replacestr = '<PrintJob xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance" xsi:noNamespaceSchemaLocation="C:\/XMLSchemas\/' . schema . 'PrintBatch.xsd">'
+    execute '%s/' . searchstr . '/' . replacestr
+endfunction
+
+
+
+"***** COLOR SCHEME *****
+"Sets the color scheme for VIM.
+colorscheme molokai
+
+
+
+
+
+
+" The below function doesn't probably do anything -- there is no command
+" created to call for it's definition.
+"***** UNKNOWN -- not sure what this does with unprintable characters *****
+ function! NonPrintable()
+   setlocal enc=utf8
+   if search('[^\x00-\xff]') != 0
+     call matchadd('Error', '[^\x00-\xff]')
+     echo 'Non printable characters in text'
+   else
+     setlocal enc=latin1
+     echo 'All characters are printable'
+   endif
+ endfunction
+
+
+
+"This function sets up my particular variety of folding so subfunctions are
+"all folded up right when I open the file.
+function GetPerlFold()
+  if getline(v:lnum) =~ '^\s*sub\s'
+    return ">1"
+  elseif getline(v:lnum) =~ '\}\s*$'
+    let my_perlnum = v:lnum
+    let my_perlmax = line("$")
+    while (1)
+      let my_perlnum = my_perlnum + 1
+      if my_perlnum > my_perlmax
+        return "<1"
+      endif
+      let my_perldata = getline(my_perlnum)
+      if my_perldata =~ '^\s*\(\#.*\)\?$'
+        " do nothing
+      elseif my_perldata =~ '^\s*sub\s'
+        return "<1"
+      else
+        return "="
+      endif
+    endwhile
+  else
+    return "="
+  endif
+endfunction
+
+"Setting local enviornment variable (and setting foldexpr to use
+"GetPerlFold()) function (see func. immediately previous to this.)
+setlocal foldexpr=GetPerlFold()
+setlocal foldmethod=expr
+
+
+
+"working on two functions for turning on and off print statements for when I
+"use File::Slurp
+"
+"function turnoffprint
+"execute '%s/write_file/#write_file/g'
+"endfunction
+"
+"function turnonprint
+"execute '%s/#write_file/write_file/g'
+"endfunction
+
+
+
+"Definition for ForgetUndo function.
+"This function gives us the ability to clear the undo history without closing
+function! <SID>ForgetUndo()
+    let old_undolevels = &undolevels
+    set undolevels=-1
+    exe "normal a \<BS>\<Esc>"
+    let &undolevels = old_undolevels
+    unlet old_undolevels
+endfunction
+
+
+"Create new command 'ClearUndo'.  Calls ForgetUndo function definition (see
+"  above).
+"This is setting the name of the command that is type after : and the command
+"that, :undoclear will run ForgetUndo()
+command -nargs=0 UndoClear call <SID>ForgetUndo()
+command -nargs=0 Undoclear call <SID>ForgetUndo()
+command -nargs=0 ClearUndo call <SID>ForgetUndo()
+command -nargs=0 Clearundo call <SID>ForgetUndo()
+
+
+" set nobackup -- was set above. (this probably makes the below pointless....)
+set undofile " Maintain undo history between sessions
+set undodir=$VIMRUNTIME/_vimUndoDir " Sets the location of your undo files
+
+
+
+function! GotoJump()
+  jumps
+  let j = input("Please select your jump: ")
+  if j != ''
+    let pattern = '\v\c^\+'
+    if j =~ pattern
+      let j = substitute(j, pattern, '', 'g')
+      execute "normal " . j . "\<c-i>"
+    else
+      execute "normal " . j . "\<c-o>"
+    endif
+  endif
+endfunction
+
+command -nargs=0 Jumpto call GotoJump()
+
+"Show buffer and tab number with tab name in GUI (see notes for terminal "below)
+
+set showtabline=2 " always show tabs in gvim, but not vim
+" set up tab labels with tab number, buffer name, number of windows
+function! GuiTabLabel()
+  let label = ''
+  let bufnrlist = tabpagebuflist(v:lnum)
+  " Add '+' if one of the buffers in the tab page is modified
+  for bufnr in bufnrlist
+    if getbufvar(bufnr, "&modified")
+      let label = '+'
+      break
+    endif
+  endfor
+  " Append the tab number
+  let label .= v:lnum.': '
+  " Append the buffer name
+  let name = bufname(bufnrlist[tabpagewinnr(v:lnum) - 1])
+  if name == ''
+    " give a name to no-name documents
+    if &buftype=='quickfix'
+      let name = '[Quickfix List]'
+    else
+      let name = '[No Name]'
+    endif
+  else
+    " get only the file name
+    let name = fnamemodify(name,":t")
+  endif
+  let label .= name
+  " Append the number of windows in the tab page
+  let wincount = tabpagewinnr(v:lnum, '$')
+  return label . '  [' . wincount . ']'
+endfunction
+set guitablabel=%{GuiTabLabel()}   " change to tabline instead of guitablabel if in Vim with no GUI.
+
+
+
+"""""""OPENING MULTIPLE FILES""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"gvim -p filename1.txt filename2.txt filename3.txt
+"gvim -p *.txt
+"NOTE- Each specified file is opened until the value of 'tabpagemx' option is reached.
+"""""""""USING TABEDIT""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Normal mode motions for tabs
+"{i}g[t|T]         "i is the tab position starting with 1 on the far left.
+"                  "t or T move forward and backward tabs (or use <C-PgDn> and <C-PgUp>
+"
+"Command movement between tabs
+"tabm 0            "move current tab to first tab
+"tabm              "move current tab to last position
+"tabm {i}          "move tab to position i
+"tab([np]|first|last)]   "n is next, p is prev, first is first tab, last is last tab
+
+"gf 
+":tabs             "list all tabs including their displayed windows.
+":tabe {file}      "edit specified file in a new tab
+":tabf {file}      "open a new tab with filename given, searching the 'path' to find it
+":tabclose         "close current tab
+":tabclose {i}     "close i-th tab
+":tabonly          "close all other tabs (show only the current tab)
+":tab ball         "show each buffer in a tab (up to 'tabpagemax' tabs)
+":tab help         "open a new help window in its own tab page
+":tab drop {file}  "open {file} in a new tab, or jump to a window/tab containing the file if there is one
+":tab split        "copy the current window to a new tab of its own
+"
+"NOTE- Vim uses the path option to determine which directories to look in
+"(tabfind).  (e.g.   :set path=.,,**   will tell vim to search current
+"current file which is the . followed by the current directory ,, followed by
+"each subdirectory under the current one **
+"NOTE- This is not the same thing as using :sp or :vsp (see :help window)
+"
+"
+"OTHER MAPPINGS-
+"With the following mappings (which require gvim), you can press Ctrl-Left or Ctrl-Right 
+" to go to the previous or next tabs, and can press Alt-Left or Alt-Right to move the current 
+" tab to the left or right.
+"nnoremap <C-Left> :tabprevious<CR>
+"nnoremap <C-Right> :tabnext<CR>
+"nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+"nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+"
+"With the following, you can press F8 to show all buffers in tabs, or to close all tabs
+" (toggle: it alternately executes  :tab ball and :tabo).
+" 
+"let notabs = 0
+"nnoremap <silent> <F8> :let notabs=!notabs<Bar>:if notabs<Bar>:tabo<Bar>:else<Bar>:tab ball<Bar>:tabn<Bar>:endif<CR>
+
+"SOURCE-  http://vim.wikia.com/wiki/Using_tab_pages
+"SOURCE-  http://vim.wikia.com/wiki/Category:Tabs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Switching to another buffer
+"
+"Add the following to allow <F8> or Shift-F8 <S-F8> to move forwards and backwards in buffer list.
+"set switchbuf=usetab
+"nnoremap <F8> :sbnext<CR>
+"nnoremap <S-F8> :sbprevious<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""Functions List""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"NOTE-- These functions are tied to leader mappings.
+function! OpenMyVimrc()
+  :set hidden
+  :e $MYVIMRC
+endfunction
+:command! OpenMyVimrc :call OpenMyVimrc()
+
+
+
+function! Updatevimrc()
+  :!copy \utils\Vim\_vimrc \_vimrc\_vimrc
+":!git pull origin master
+endfunction
+:command! Updatevimrc :call Updatevimrc()
+
+
+
+function! OpenMyViminfo()
+  :set hidden
+  :e %userprofile%\.viminfo
+endfunction
+:command! OpenMyViminfo :call OpenMyViminfo()
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Sum number
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Adding the ability to sum numbers from lines matching a pattern.  *So far
+"  this is only for unsigned integers.
+let g:S = 0  "result in global variable S
+function! Sum(number)
+  let g:S = g:S + a:number
+  return a:number
+endfunction
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Not sure what this is or why I put it in the buffer.....
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"This is just like the leader mappinhg I have setup for /redir and /noredir,
+"only it's not as lightweight but adds convience.  
+function! TabMessage(cmd)
+  redir => message
+  silent execute a:cmd
+  redir END
+  if empty(message)
+    echoerr "no output"
+  else
+    " use "new" instead of "tabnew" below if you prefer split windows instead of tabs
+    tabnew
+    setlocal buftype=nofile bufhidden=wipe noswapfile nobuflisted nomodified
+    silent put=message
+  endif
+endfunction
+command! -nargs=+ -complete=command TabMessage call TabMessage(<q-args>)
+
+"NOTE (how to use example):   :TabMessage highlight    
+"For/other ways to work with this stuff:  see execute() in the help-files.
+"NOTE (the above also only supports vim 7.0 and greater as it requires tabbed
+"pages.  Modify the function to use split windows if tabpages aren't an option
+"or preferred.
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Diff Changes with Saved File
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Function to use VimDiff against the current buffer with the last saved file.
+function! s:DiffWithSaved()
+  let filetype=&ft
+  diffthis
+  vnew | r # | normal! 1Gdd
+  diffthis
+  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use Mozilla Style
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"This is just a function that I'm going to use as a template but that I saw
+"posted for quickly changing the curent setup to make it easier to edit
+"Mozilla stuff.
+function! UseMozillaStyle()
+    set tabstop=4
+    set softtabstop=4
+    set shiftwidth=4
+    set expandtab
+endfunction
+com! UseMozillaStyle call UseMozillaStyle()
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Lines to Files
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Takes each line of the file and outputs it to numerically named text files to the
+"  current directory (e.g. 1.txt, 2.txt, 3.txt, etc.)  Each file contains one
+"  line from the file.
+function! Linestofiles()
+    :g/^/exe ".w ".line(".").".txt"
+endfunction
+com! Linestofiles call Linestofiles()
+
+
+
+"Prevent the upper case version of commands from failing 
+" (note this doesn't work with args, just the sole command itself)
+command WQ wq
+command Wq wq
+command W w
+command Q q
+"""""""""""" Another solution to possibly use (see remap uppercase below)""""""
+
+
+
+
+
+
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""TURNED-OFF FUNCTIONS LIST""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Get Current Mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"This is just to note three fuctions that can be run (not really meant for
+"_vimrc in this form.  Running these three commands in order will get you 
+
+function! GetMappings()
+:redir >> ~/mymaps.txt
+:map
+:redir END
+endfunction
+:command! GetMappings :call GetMappings()
+
+"Note-- Run the above commands in Vim in the order listed.  ~/ means it will
+"output to the CURRENT working directory (which is probably C:\users\username\
+"for windows).
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" XML wrapping and unwrapping
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+command -nargs=* Wrap call WrapXML(<f-args>)
+
+function WrapXML(...)
+    let wrapstr = get(a:, 1, "packet")
+    execute 'silent %s/<'.wrapstr.'>\_.\{-}<\/'.wrapstr.'>/\=substitute(submatch(0),"\n","","g")/i'
+endfunction
+
+
+
+command -nargs=0 Unwrap call UnwrapXML()
+
+function UnwrapXML()
+    execute 'silent %s/>\( *\)</>\r\1</g'
+endfunction
+
+
+
+
+
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" EMPTY FUNCTION TEMPLATE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"function! EmptyFunctionTemplate()
+"  :set hidden
+"endfunction
+":command! EmptyFunctionTemplate :call EmptyFunctionTemplate()
+
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""TURNED-OFF FUNCTIONS LIST""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"----------------------------------------------------------
+"NOTE-- Auto commands are dangerous.  This one will save the session when you
+"leave and reopen it when you enter vim.  Putting it here but unactivated
+"because I'll need to test it first.
+" Automatically save the session when leaving Vim
+"autocmd! VimLeave * mksession
+" Automatically load the session when entering vim
+"autocmd! VimEnter * source ~/Session.vim
+
+
+
+"----------------------------------------------------------
+" Function to source only if file exists {
+"function! SourceIfExists(file)
+"  if filereadable(expand(a:file))
+"    exe 'source' a:file
+"  endif
+"endfunction
+" }
+
+" EXAMPLE OF SourceIfExists
+
+"call SourceIfExists("~/.vim/colors.vim")
+"call SourceIfExists("~/.vimrc.local")
+
+" FreeBSD-specific terminal fixes
+"if FREEBSD()
+"  call SourceIfExists("~/.vim/compat/freebsd.vim")
+"  call SourceIfExists("/usr/src/tools/tools/editing/freebsd.vim")
+"end
+
+"if has('gui_running')
+"  call SourceIfExists("~/.gvimrc.local")
+"endif
+"
+"
+"
+""----------------------------------------------------------
+"This will make it so the capitalized versions of these commands do the same
+"thing.   (alternative to the upper case comamnds above)
+"command WQ wq
+"command Wq wq
+"command W w
+"command Q q
+
+"Option 1:
+"cnoreabbrev <expr> W ((getcmdtype() is# ':' && getcmdline() is# 'W')?('w'):('W'))
+
+"Option 2: (As a function)
+"fun! SetupCommandAlias(from, to)
+"  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() is# ":" && getcmdline() is# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+"endfun
+"call SetupCommandAlias("W","w")
+
+"This checks that the command type is : and the command is W, so it's safer than just cnoreabbrev W w.
+"NOTE: WARNING  (see below)  
+"If you use the optional solution, please, be aware both of the two below commands will work as the 
+"lower one which may present an unexpected result depending on the actual buffer content and VIM 
+"settings: :%s/W/foo/g<CR> :%s/w/foo/g<CR> 
+
+
+
+"----------------------------------------------------------
+"----------------------------------------------------------
+"----------------------------------------------------------
+"----------------------------------------------------------
+"----------------------------------------------------------
+
+

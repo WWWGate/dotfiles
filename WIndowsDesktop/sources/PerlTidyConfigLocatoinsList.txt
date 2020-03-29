@@ -1,0 +1,14 @@
+# Config file search...system reported as:Windows NT4
+# Testing: .perltidyrc
+# Testing: perltidy.ini
+# Examining: $ENV{PERLTIDY}
+# Examining: $ENV{HOME}
+# Examining: $ENV{USERPROFILE} = C:\Users\aweseman
+# Testing: C:\Users\aweseman\.perltidyrc
+# Testing: C:\Users\aweseman\perltidy.ini
+# Examining: $ENV{HOMESHARE}
+# Testing: C:\WinNT\profiles\All Users\.perltidyrc
+# Testing: C:\WinNT\profiles\All Users\perltidy.ini
+# Testing: C:\WinNT\.perltidyrc
+# Testing: C:\WinNT\perltidy.ini
+# ...no config file found
