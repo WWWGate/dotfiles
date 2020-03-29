@@ -1,0 +1,124 @@
+"Timestamp for keeping track of when I update things.
+"Last Modified: Thu Mar 26, 2020  08:51AM
+
+"""""BASICS"""""
+set nocompatible "Expands options so we aren't limited to what only works with Vi
+syntax on "Syntax highlighting on
+filetype plugin indent on
+
+
+
+"""""""""""""""""""""""""""""""""""
+"""""""""""PLUGINS"""""""""""""""""
+"""""""""""""""""""""""""""""""""""
+"Run pathogen plugin to install all plugins in my 'bundle' (Vim\vim82\bundle\) folder of vim
+"directory.
+execute pathogen#infect()
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""DISPLAY OPTIONS"""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""WINDOW"""
+set splitright splitbelow  "Windows should default to splitting to the right or below
+set nu rnu        "Set line number and relative line numbering options on.
+
+
+"""TEXT COLOR and FONT"""
+colo molokai     "My personal preferance for color.  NOTE: Requires plugin.
+set guifont=Meslo_LG_M:h10:cANSI:qDRAFT
+
+
+
+"""AUTOFORMATING OPTIONS""""
+set tabstop=4 shiftwidth=4 expandtab "Autoreplace tabs with space, use 4 spaces and mark tabs at 4 spaces each.
+set nowrap       "Don't wrap lines.
+set autoindent   "indentation automatically set based on the previous line.
+
+
+
+"""SEARCH OPTIONS"""
+set ignorecase   "Search ignores case
+set wrapscan     "Searches loop back to begining of file and don't just stop.
+set hlsearch     "Highlight all the occurences of the last search.
+set list         "Show trailing whitespaces, line endings, etc.
+
+
+"""BACKGROUND SYSTEM OPTIONS"""
+set belloff=all "disable the stupid bell sound for everything.
+set clipboard=unnamed "Helps with yanking and pasting between Vim sessions.
+
+
+
+"""ADDITIONAL SOURCE FILES"""
+so C:\_vimrc\VAPIDE.vim
+so C:\_vimrc\myVimMappings.vim
+
+
+
+"""CUSTOM CONFIG FILES"""
+so C:\_vimrc\_myplugins\UpdateFileTimestamps.vim
+so C:\_vimrc\_myplugins\myCursor.vim
+so C:\_vimrc\_myplugins\HighlightNonASCII.vim
+so C:\_vimrc\_myplugins\ALESettings.vim
+so C:\_vimrc\_myplugins\LinterStatus.vim
+
+"""WIP SOURCES (not ready yet)"""
+"so C:\_vimrc\_myplugins\CustomSessionWindow.vim
+
+
+
+packloadall    "This ensures that we get all of our help docs loaded.
+
+silent! helptags ALL
+
+
+
+"""""""""""""""""""""""""""""""""""
+""""""CUSTOM SETUIP NOTES""""""""""
+"""""""""""""""""""""""""""""""""""
+
+""""""""""3rd PARTY GIT PLUGINS""""""""""""""
+
+
+
+
+
+""""""""""PRE-SETUP""""""""""""""""""""""""""
+" Make sure pathogen plugin is downloaded and installed.
+"   You can get it here-- https://github.com/tpope/vim-pathogen
+"   Direct Download Link-- https://github.com/tpope/vim-pathogen/archive/master.zip
+"   (see the bottom of this file for very brief instructions, or view them at
+"   GitHub page above.)
+
+
+""""""""""HELPFUL SETUP INSTRUCTIONS""""""""
+"INSTALLING PATHOGEN (for Windows)
+"1 - Extract the zip file (https://github.com/tpope/vim-pathogen/archive/master.zip)
+"2 - Locate the file 'pathogen.vim' in the archive, and copy it here:
+" $HOME\vimfiles\
+
+" NOTE-- The $HOME directory is the root of the install location of Vim which
+" varies on system to system.  This is where Vim defaults to when 'Home' isn't
+" set as an enviornment variable in Windows for Vim to load.  For Windows 10,
+" x86 install, the directory is:
+
+
+" NOTE-- if you dont' know where your $HOME directory is.  Run the following
+" command:
+
+" :echo $HOME
+" (from vim normal mode, type    :echo<space>$HOME<CR>  ) <text> are
+" representations of actual 'named' keys and are not typed literally.
+
+"ALTERNATIVE TO ABOVE (for Windows)
+" Add this to your vimrc:  runtime bundle/vim-pathogen/autoload/pathogen.vim
+"   put the file 'pathogen.vim' from the zip archive in teh bundle folder that's
+"   located at:  ..\Vim\vim82\   (if it's not there, create it).
+"
+"   NOTE:  'vim82' will be a directory that reflects your current vim version.
+"   If you have verison 7.4, then the folder with be 'vim74'
+
+
