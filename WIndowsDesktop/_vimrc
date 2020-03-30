@@ -24,6 +24,15 @@ execute pathogen#infect()
 """WINDOW"""
 set splitright splitbelow  "Windows should default to splitting to the right or below
 set nu rnu        "Set line number and relative line numbering options on.
+set linebreak
+"set hidden "Hide buffers in background when switching
+
+
+
+"""SOUND"""
+set noerrorbells "Shuf off the annoying ding on erorr.
+set belloff=all "disable the stupid bell sound for everything.
+
 
 
 """TEXT COLOR and FONT"""
@@ -33,9 +42,10 @@ set guifont=Meslo_LG_M:h10:cANSI:qDRAFT
 
 
 """AUTOFORMATING OPTIONS""""
-set tabstop=4 shiftwidth=4 expandtab "Autoreplace tabs with space, use 4 spaces and mark tabs at 4 spaces each.
+set tabstop=4 shiftwidth=4 expandtab shiftround "Autoreplace tabs with space, use 4 spaces and mark tabs at 4 spaces each.
 set nowrap       "Don't wrap lines.
 set autoindent   "indentation automatically set based on the previous line.
+set backspace=indent,eol,start "Allow backspacing over indention, line breaks and insertion start.
 
 
 
@@ -46,9 +56,14 @@ set hlsearch     "Highlight all the occurences of the last search.
 set list         "Show trailing whitespaces, line endings, etc.
 
 
+
 """BACKGROUND SYSTEM OPTIONS"""
-set belloff=all "disable the stupid bell sound for everything.
 set clipboard=unnamed "Helps with yanking and pasting between Vim sessions.
+"set dir=~/.cache/vim "Directory to store swap files.
+"set noswapfile "Disable swap files.
+"Note: ~/ is $HOME directory.
+"set history=1000 "Increase the undo limit.
+"set wildignore+=.pyc,.swp  "Ignore files matching these patterns when opening files based on a glob pattern.
 
 
 
@@ -64,6 +79,8 @@ so C:\_vimrc\_myplugins\myCursor.vim
 so C:\_vimrc\_myplugins\HighlightNonASCII.vim
 so C:\_vimrc\_myplugins\ALESettings.vim
 so C:\_vimrc\_myplugins\LinterStatus.vim
+
+
 
 """WIP SOURCES (not ready yet)"""
 "so C:\_vimrc\_myplugins\CustomSessionWindow.vim
